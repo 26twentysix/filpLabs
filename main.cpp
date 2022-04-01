@@ -108,25 +108,17 @@ void compareSpentTime() {
     map<char *, int, cmp_str> charDict = map<char *, int, cmp_str>();
     bufferToMap(textBuffer, charDict);
     auto endTime1 = chrono::steady_clock::now();
-    printCharDict(charDict);
-    auto endTime2 = chrono::steady_clock::now();
     auto elapsed1 = chrono::duration_cast<chrono::milliseconds>(endTime1 - startTime1);
-    auto elapsed2 = chrono::duration_cast<chrono::milliseconds>(endTime2 - startTime1);
     file.close();
     file.clear();
     file.open("testText.txt");
     auto startTime2 = chrono::steady_clock::now();
     map<string, int> strDict = map<string, int>();
     createDictFromText(&file, strDict);
-    auto endTime3 = chrono::steady_clock::now();
-    printStrDict(strDict);
-    auto endTime4 = chrono::steady_clock::now();
-    auto elapsed3 = chrono::duration_cast<chrono::milliseconds>(endTime3 - startTime2);
-    auto elapsed4 = chrono::duration_cast<chrono::milliseconds>(endTime4 - startTime2);
+    auto endTime2 = chrono::steady_clock::now();
+    auto elapsed2 = chrono::duration_cast<chrono::milliseconds>(endTime2 - startTime2);
     cout << "Time spent by 1st algo without output: " << elapsed1.count() << " ms\n" <<
-    "Time spent by 1st algo with output:" << elapsed2.count() << " ms\n" <<
-    "Time spent by 2st algo without output:" << elapsed3.count() << " ms\n" <<
-    "Time spent by 2st algo with output:" << elapsed4.count() << " ms\n";
+    "Time spent by 2st algo without output:" << elapsed2.count() << " ms\n";
 
 }
 
