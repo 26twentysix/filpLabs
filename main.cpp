@@ -9,7 +9,7 @@ using namespace std;
 class Text {
 public:
     static const int blockSize = 1000;
-    char block[blockSize];
+    char block[blockSize]{};
     Text *nextBlock = nullptr;
 };
 
@@ -18,12 +18,12 @@ Text *readText(ifstream *file) {
     Text *currentBlock = firstBlock;
     while (file->is_open()) {
         if (file->eof()) break;
-        for (size_t i = 0; i < firstBlock->blockSize; i++) {
+        for (char &i: currentBlock->block) {
             if (file->eof()) {
-                currentBlock->block[i] = '\0';
+                i = '\0';
                 break;
             }
-            file->get(currentBlock->block[i]);
+            file->get(i);
         }
         Text *nextBlock = new Text();
         currentBlock->nextBlock = nextBlock;
@@ -101,23 +101,35 @@ void createDictFromText(ifstream *file, map<string, int> &dict) {
     }
 }
 
-int main() {
+void compareSpentTime() {
     ifstream file("testText.txt");
-    auto start_time = chrono::steady_clock::now();
+    auto startTime1 = chrono::steady_clock::now();
     Text *textBuffer = readText(&file);
     map<char *, int, cmp_str> charDict = map<char *, int, cmp_str>();
     bufferToMap(textBuffer, charDict);
+    auto endTime1 = chrono::steady_clock::now();
     printCharDict(charDict);
-    auto end_time = chrono::steady_clock::now();
-    auto elapsed_ns = chrono::duration_cast<chrono::milliseconds>(end_time - start_time);
-    ifstream file1("testText.txt");
-    auto start_time1 = chrono::steady_clock::now();
+    auto endTime2 = chrono::steady_clock::now();
+    auto elapsed1 = chrono::duration_cast<chrono::milliseconds>(endTime1 - startTime1);
+    auto elapsed2 = chrono::duration_cast<chrono::milliseconds>(endTime2 - startTime1);
+    file.close();
+    file.clear();
+    file.open("testText.txt");
+    auto startTime2 = chrono::steady_clock::now();
     map<string, int> strDict = map<string, int>();
-    createDictFromText(&file1, strDict);
+    createDictFromText(&file, strDict);
+    auto endTime3 = chrono::steady_clock::now();
     printStrDict(strDict);
-    auto end_time1 = chrono::steady_clock::now();
-    auto elapsed_ns1 = chrono::duration_cast<chrono::milliseconds>(end_time1 - start_time1);
-    cout << elapsed_ns.count() << " ms\n";
-    cout << elapsed_ns1.count() << " ms\n";
+    auto endTime4 = chrono::steady_clock::now();
+    auto elapsed3 = chrono::duration_cast<chrono::milliseconds>(endTime3 - startTime2);
+    auto elapsed4 = chrono::duration_cast<chrono::milliseconds>(endTime4 - startTime2);
+    cout << "Time spent by 1st algo without output: " << elapsed1.count() << " ms\n" <<
+    "Time spent by 1st algo with output:" << elapsed2.count() << " ms\n" <<
+    "Time spent by 2st algo without output:" << elapsed3.count() << " ms\n" <<
+    "Time spent by 2st algo with output:" << elapsed4.count() << " ms\n";
 
+}
+
+int main() {
+    compareSpentTime();
 }
