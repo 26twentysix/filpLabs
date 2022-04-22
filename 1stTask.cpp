@@ -102,7 +102,7 @@ void createDictFromText(ifstream *file, map<string, int> &dict) {
 }
 
 void compareSpentTime() {
-    ifstream file("testText.txt");
+    ifstream file("testText1stTask.txt");
     auto startTime1 = chrono::steady_clock::now();
     Text *textBuffer = readText(&file);
     map<char *, int, cmp_str> charDict = map<char *, int, cmp_str>();
@@ -111,7 +111,7 @@ void compareSpentTime() {
     auto elapsed1 = chrono::duration_cast<chrono::milliseconds>(endTime1 - startTime1);
     file.close();
     file.clear();
-    file.open("testText.txt");
+    file.open("testText1stTask.txt");
     auto startTime2 = chrono::steady_clock::now();
     map<string, int> strDict = map<string, int>();
     createDictFromText(&file, strDict);
