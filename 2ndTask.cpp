@@ -126,7 +126,7 @@ private:
     }
 
 
-    void PrintAllDfs(BuddyBlock<T> current) {
+    void PrintAllRecursive(BuddyBlock<T> current) {
         if (!current.free) {
             T result[999];
             memcpy((void *) result, current.startPtr, current.blockSize - current.freeMemory);
@@ -137,10 +137,10 @@ private:
             cout << r << " : " << current.startPtr << endl;
         }
         if (current.leftChild != nullptr) {
-            PrintAllDfs(*current.leftChild);
+            PrintAllRecursive(*current.leftChild);
         }
         if (current.rightChild != nullptr) {
-            PrintAllDfs(*current.rightChild);
+            PrintAllRecursive(*current.rightChild);
         }
     }
 
