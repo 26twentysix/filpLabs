@@ -3,4 +3,4 @@ project(filpLabs)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(filpLabs 2ndTask.cpp)
+add_executable(filpLabs 3rdTask.cpp)
